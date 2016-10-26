@@ -217,7 +217,8 @@ int KoerperFq::getk() {
 KoerperFq KoerperFq::kanon(KoerperFq G) {
 	int col = 0, row = 0, rowwalker = 0, indexwalker = 0;
 	bool signal = true;
-	std::vector<int> Pivotindex(G.q);
+	std::vector<int> PivotindexZ(G.q);
+	std::vector<int> PivotindexS(G.q);
 	std::vector<int> speicher(n);
 
 //Tauschalgorithmus zur Ordnung der Matrix nach Vertauschungsregel
@@ -229,7 +230,8 @@ KoerperFq KoerperFq::kanon(KoerperFq G) {
 				G.M[row].swap(G.M[rowwalker]); //Tausche Inhalt von aktuellem Startpunkt mit gefundener Zeile die unterschiedlich von 0 ist
 				row++; //Nächster Start sollte eine Zeile überspringen hiermit, sollte bei nächstem Swap in selber Zeile auch dafür sorgen den letzten Swap nicht rückgängig zu machen
 				if (signal == true) {
-					Pivotindex[indexwalker] = rowwalker; //Nötig um 'oberste' Zeile zu finden welche an einer der gefundenen Stellen != 0 ist
+					PivotindexZ[indexwalker] = rowwalker; //Nötig um 'oberste' Zeile zu finden welche an einer der gefundenen Stellen != 0 ist
+					PivotindexS[indexwalker] = col; //Nötig um die Spalte des Pivotindexes zu merken
 					indexwalker++;
 					signal = false;
 				}
@@ -241,10 +243,18 @@ KoerperFq KoerperFq::kanon(KoerperFq G) {
 	}
 //Anwendung der Unformungsregeln zum Erreichen der kanonischen Form
 //Beginn von unten nach oben
-	int verbleibend = G.q;
+	int verbleibend = G.n, row2 = 0, col2 = 0;
 
 	while (verbleibend>0) {
+		col2 = 0;
+		int multinverse = G.multiInverse(G.M[PivotindexZ[verbleibend]][PivotindexS[verbleibend]]); //Multiplikative inverse bestimmen für erste PV Zeile
+		while ((col2+PivotindexS[verbleibend]) < (G.n)) {
+			//Errechnung der Pivotzeile mit multiplikativer Inverser
+			speicher[col2 + PivotindexS[verbleibend]] = G.elementMultiplikation(multinverse, G.M[PivotindexZ[verbleibend]][col2 + PivotindexS]);
+		}
+		G.M[PivotindexZ[verbleibend]].swap(speicher);
 
+		//Nächster Schritt, alle Zeilen über der
 
 
 		verbleibend--;
