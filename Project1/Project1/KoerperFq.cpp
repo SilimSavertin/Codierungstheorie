@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-KoerperFq::KoerperFq(int q, int k, int n)
+KoerperFq::KoerperFq(int q, int k, int n) //q Dimension, k Zeilen, n Spalten
 {
 	this->q = q;
 	this->k = k;
@@ -15,8 +15,6 @@ void KoerperFq::setvector() {
 	int i = 0, j = 0, e=0;
 	std::vector<int> zwischenspeicher(this->n);
 	while (i < this->k) {
-		//M.push_back
-		//this->M.push_back(new std::vector<int>);
 		while (j < this->n) {
 			std::cout << "Zeile " << i + 1 << " Spalte " << j + 1 << std::endl;
 			std::cin >> e;
@@ -36,6 +34,7 @@ void KoerperFq::setvector() {
 
 void KoerperFq::printer() {
 	int i = 0, j = 0;
+	std::cout<< std::endl;
 	while (i < this->k) {
 		while (j < this->n) {
 			std::cout << M[i][j]<<" ";		
@@ -216,18 +215,43 @@ int KoerperFq::getk() {
 
 
 KoerperFq KoerperFq::kanon(KoerperFq G) {
-	int col = 0, row = 0;
+	int col = 0, row = 0, rowwalker = 0, indexwalker = 0;
+	bool signal = true;
+	std::vector<int> Pivotindex(G.q);
 	std::vector<int> speicher(n);
 
+//Tauschalgorithmus zur Ordnung der Matrix nach Vertauschungsregel
+	while (col < G.getn()) {
+		rowwalker = row; //Startpunkt des Matrixdurchlaufs festlegen
+		while (rowwalker < G.getk()) {
 
-	while (col < G.getn) {
-		
-
-
-
-
-		col++;
+			if (G.M[col][rowwalker] != 0) {
+				G.M[row].swap(G.M[rowwalker]); //Tausche Inhalt von aktuellem Startpunkt mit gefundener Zeile die unterschiedlich von 0 ist
+				row++; //Nächster Start sollte eine Zeile überspringen hiermit, sollte bei nächstem Swap in selber Zeile auch dafür sorgen den letzten Swap nicht rückgängig zu machen
+				if (signal == true) {
+					Pivotindex[indexwalker] = rowwalker; //Nötig um 'oberste' Zeile zu finden welche an einer der gefundenen Stellen != 0 ist
+					indexwalker++;
+					signal = false;
+				}
+			 }
+			rowwalker++; //aktuelle Zeilen weiter durchlaufen
+		}
+		signal = true;
+		col++; //Wiederholen für nächste Spalte
 	}
+//Anwendung der Unformungsregeln zum Erreichen der kanonischen Form
+//Beginn von unten nach oben
+	int verbleibend = G.q;
+
+	while (verbleibend>0) {
+
+
+
+		verbleibend--;
+	}
+
+
+	return G;
 }
 
 KoerperFq::~KoerperFq()
