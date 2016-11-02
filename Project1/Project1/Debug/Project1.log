@@ -1,7 +1,12 @@
 ﻿  KoerperFq.cpp
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(101): warning C4715: 'KoerperFq::elementAddition': not all control paths return a value
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(127): warning C4715: 'KoerperFq::additiveInverse': not all control paths return a value
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(207): warning C4715: 'KoerperFq::multiInverse': not all control paths return a value
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(172): warning C4715: 'KoerperFq::elementMultiplikation': not all control paths return a value
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(292): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(295): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(307): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(311): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(374): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(120): warning C4715: 'KoerperFq::elementAddition': not all control paths return a value
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(146): warning C4715: 'KoerperFq::additiveInverse': not all control paths return a value
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(191): warning C4715: 'KoerperFq::elementMultiplikation': not all control paths return a value
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(226): warning C4715: 'KoerperFq::multiInverse': not all control paths return a value
   Project1.vcxproj -> C:\Users\User\Documents\GitHub\Codierungstheorie\Codierungstheorie\Project1\Debug\Project1.exe
   Project1.vcxproj -> C:\Users\User\Documents\GitHub\Codierungstheorie\Codierungstheorie\Project1\Debug\Project1.pdb (Partial PDB)

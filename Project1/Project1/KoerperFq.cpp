@@ -4,9 +4,9 @@
 
 KoerperFq::KoerperFq(int q, int k, int n) //q Dimension, k Zeilen, n Spalten
 {
-	this->q = q;
-	this->k = k;
-	this->n = n;
+	this->q = q; //Dimension
+	this->k = k; //Zeilen
+	this->n = n; //Spalten
 	//this->M = new std::vector<std::vector<int>>(k);
 	
 }
@@ -30,6 +30,25 @@ void KoerperFq::setvector() {
 		M.push_back(zwischenspeicher);
 		i++;
 	}
+}
+
+void KoerperFq::printerH() {
+	int i = 0, j = 0;
+	std::cout << std::endl;
+	int rows = H.size();
+	int cols = 0;
+	if (rows > 0)
+		cols = H[0].size();
+	while (i < rows) {
+		while (j < cols) {
+			std::cout << H[i][j] << " ";
+			j++;
+		}
+		j = 0;
+		std::cout << std::endl;
+		i++;
+	}
+
 }
 
 void KoerperFq::printer() {
@@ -214,11 +233,100 @@ int KoerperFq::getk() {
 }
 
 
-KoerperFq KoerperFq::kanon(KoerperFq G) {
+
+std::vector<std::vector<int>> KoerperFq::kontroll(KoerperFq G) {
+	std::vector<std::vector<int>> M(G.M);
 	int col = 0, row = 0, rowwalker = 0, indexwalker = 0;
-	bool signal = true;
-	std::vector<int> PivotindexZ(G.q);
-	std::vector<int> PivotindexS(G.q);
+	std::vector<int> PivotindexZ;
+	std::vector<int> PivotindexS;
+	std::vector<int> NichtPivotindexS;
+	int anzPivot = 0;
+	std::vector<std::vector<int>> H;
+
+	M = G.kanon(G);
+
+	while (col < G.getn()) {
+		row = rowwalker;
+		while (row < G.getk()) {
+
+			if (M[row][col] != 0) {
+				PivotindexZ.push_back(row);
+				PivotindexS.push_back(col);
+				//std::cout << "Zeile: " << row << std::endl;
+				//std::cout << "Spalte: " << col << std::endl;
+				anzPivot++;
+				rowwalker = row + 1;
+				row = G.getk(); //Verlasse aktuelle Zeilenschleife und gehe zur nächsten Zeile
+
+			}
+			/*else {
+				NichtPivotindexS.push_back(col);
+			}*/
+			row++;
+		}
+		col++;
+	}
+
+	int anzNichtPivot = G.getn()-anzPivot;
+	this->anzPivot = anzPivot;
+	int z = 0;
+	col = 0;
+	bool nichtpivot = true;
+	while (col < G.getn()) {
+		nichtpivot = true;
+		z = 0;
+		while (z < anzPivot) {
+			if (PivotindexS[z] == col) nichtpivot = false; 
+			z++;
+		}
+		if (nichtpivot == true) {
+			NichtPivotindexS.push_back(col);
+		}
+		col++;
+	}
+
+	
+
+	col = 0;
+
+	while (col < NichtPivotindexS.size()) {
+		int rows = 0;
+		std::vector<int> h(G.getn(),0);
+		while (rows < PivotindexZ.size()) {
+			h[PivotindexS[rows]] = M[rows][NichtPivotindexS[col]];
+			rows++;
+		}
+		h[NichtPivotindexS[col]] = G.additiveInverse(1);
+		H.push_back(h);
+		col++;
+	}
+	std::vector<std::vector<int>> HT;
+
+	int cols = 0, rows = 0;
+
+	while (cols < H[0].size()) {
+
+		std::vector<int> rowT;
+		rows = 0;
+		while (rows < H.size()) {
+
+			rowT.push_back(H[rows][cols]);
+			rows++;
+		}
+		HT.push_back(rowT);
+		cols++;
+	}
+	this->HT = HT;
+	
+	return H;
+}
+
+
+
+std::vector<std::vector<int>> KoerperFq::kanon(KoerperFq G) {
+	int col = 0, row = 0, rowwalker = 0, indexwalker = 0;
+	bool signal = false;
+	std::vector<std::vector<int>> M(G.M);	
 	std::vector<int> speicher(n);
 
 //Tauschalgorithmus zur Ordnung der Matrix nach Vertauschungsregel
@@ -226,42 +334,109 @@ KoerperFq KoerperFq::kanon(KoerperFq G) {
 		rowwalker = row; //Startpunkt des Matrixdurchlaufs festlegen
 		while (rowwalker < G.getk()) {
 
-			if (G.M[col][rowwalker] != 0) {
-				G.M[row].swap(G.M[rowwalker]); //Tausche Inhalt von aktuellem Startpunkt mit gefundener Zeile die unterschiedlich von 0 ist
-				row++; //Nächster Start sollte eine Zeile überspringen hiermit, sollte bei nächstem Swap in selber Zeile auch dafür sorgen den letzten Swap nicht rückgängig zu machen
-				if (signal == true) {
-					PivotindexZ[indexwalker] = rowwalker; //Nötig um 'oberste' Zeile zu finden welche an einer der gefundenen Stellen != 0 ist
-					PivotindexS[indexwalker] = col; //Nötig um die Spalte des Pivotindexes zu merken
-					indexwalker++;
-					signal = false;
+			if ((M[rowwalker][col] != 0)) {
+				M[row].swap(M[rowwalker]); //Tausche Inhalt von aktuellem Startpunkt mit gefundener Zeile die unterschiedlich von 0 ist
+				if (row != rowwalker) {
+					signal = true;
 				}
-			 }
+				row++; //Nächster Start sollte eine Zeile überspringen hiermit, sollte bei nächstem Swap in selber Zeile auch dafür sorgen den letzten Swap nicht rückgängig zu machen
+				
+			}
 			rowwalker++; //aktuelle Zeilen weiter durchlaufen
 		}
-		signal = true;
 		col++; //Wiederholen für nächste Spalte
 	}
+	
 //Anwendung der Unformungsregeln zum Erreichen der kanonischen Form
-//Beginn von unten nach oben
-	int verbleibend = G.n, row2 = 0, col2 = 0;
+//Beginn von unten nach oben benötigt! Abgeklärt in Vorlesung
+	int row2 = 0, col2 = 0, rowwalker2=0;
+	std::vector<int> PivotindexZ;
+	std::vector<int> PivotindexS;
+	int anzPivot = 0;
+//Pivotelemente bestimmen: Gehe von links oben, Spaltenweise. Finde an Punkt oben links !=0, dann lege als Pivotelement fest.
+	//Zähle hoch Spalte und Zeile (Matrixreduktion) und fange wieder oben links an mit der Suche, gehe durch Spalte bis !=0
+	//Zähle Spalte hoch wenn gefunden und ignoriere alle Zeilen bis einschließlich gefundener (Matrixreduktion)
+	//Wiederhole bis alle Pivotelemente gefunden
 
-	while (verbleibend>0) {
-		col2 = 0;
-		int multinverse = G.multiInverse(G.M[PivotindexZ[verbleibend]][PivotindexS[verbleibend]]); //Multiplikative inverse bestimmen für erste PV Zeile
-		while ((col2+PivotindexS[verbleibend]) < (G.n)) {
-			//Errechnung der Pivotzeile mit multiplikativer Inverser
-			speicher[col2 + PivotindexS[verbleibend]] = G.elementMultiplikation(multinverse, G.M[PivotindexZ[verbleibend]][col2 + PivotindexS]);
+	while (col2 < G.getn()) {
+		row2 = rowwalker2;
+		while (row2 < G.getk()) {
+
+			if (M[row2][col2] != 0) {
+				PivotindexZ.push_back(row2);
+				PivotindexS.push_back(col2);
+				std::cout << "Zeile: " << row2 << std::endl;
+				std::cout << "Spalte: " << col2 << std::endl;
+				anzPivot++;
+				//rowwalker2 = row2+1;
+				int uberspringen = 0;
+				int row3 = row2;
+				while ((row3 + 1 < M.size()) && (M[row3+1][col2]!=0)) {
+					uberspringen++;					
+					row3++;
+				}
+				rowwalker2 = row2 + 1 + uberspringen;
+				row2 = G.getk(); //Verlasse aktuelle Zeilenschleife und gehe zur nächsten Zeile
+				
+			}
+			row2++;
 		}
-		G.M[PivotindexZ[verbleibend]].swap(speicher);
+		col2++;
+	}
+	this->anzPivot = anzPivot;
+	//return M;
+	//Umformung in kanonische Form nun, da Position von Pivotelementen bekannt. Unten nach oben MUSS gemacht werden!
 
-		//Nächster Schritt, alle Zeilen über der
+	int pivotL = anzPivot-1;
+	
+	while (pivotL >= 0) {
+
+		int col3 = PivotindexS[pivotL];
+		int rowM = PivotindexZ[pivotL];
+
+		while (col3 < G.getn()) { //Pivotelement wird auf 1 gesetzt durch Multiplikation mit Inversem
+			M[rowM][col3] = G.elementMultiplikation(M[rowM][col3],G.multiInverse(M[PivotindexZ[pivotL]][PivotindexS[pivotL]]));
+			col3++;
+		}
+
+		int row3 = PivotindexZ[pivotL]+1, row4=PivotindexZ[pivotL]-1;
+		col3 = PivotindexS[pivotL];
+		while (row3 < G.getk()) {
+			col3 = PivotindexS[pivotL];
+			int addInvers = G.additiveInverse(M[row3][col3]);
+			while (col3 < G.getn()) {
+				if (M[row3][PivotindexS[pivotL]] != 0) {
+					signal = true;
+				}
+				M[row3][col3] = G.elementAddition((M[row3][col3]),(G.elementMultiplikation((addInvers),(M[PivotindexZ[pivotL]][col3]))));
+				col3++;
+			}
+			row3++;
+		}
+
+		while (row4 >= 0) {
+			col3 = PivotindexS[pivotL];
+			int addInvers = G.additiveInverse(M[row4][col3]);
+			while (col3 < G.getn()) {
+				if (M[row4][PivotindexS[pivotL]] != 0) {
+					signal = true;
+				}
+				M[row4][col3] = G.elementAddition((M[row4][col3]), (G.elementMultiplikation((addInvers), (M[PivotindexZ[pivotL]][col3]))));
+				col3++;
+			}
+			row4--;
+		}
 
 
-		verbleibend--;
+		pivotL--;
+	}
+	if (signal == true) {
+		KoerperFq G2(G.q,G.k,G.n);
+		G2.M = M;
+		G2.kanon(G2);
 	}
 
-
-	return G;
+	return M;
 }
 
 KoerperFq::~KoerperFq()
