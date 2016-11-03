@@ -1,6 +1,12 @@
 #include "KoerperFq.h"
 #include <iostream>
+#include <string.h>
+#include <math.h>
 
+Cell::Cell(int row = 0, int col = 0) {
+	this->row = row;
+	this->col = col;
+}
 
 KoerperFq::KoerperFq(int q, int k, int n) //q Dimension, k Zeilen, n Spalten
 {
@@ -9,6 +15,50 @@ KoerperFq::KoerperFq(int q, int k, int n) //q Dimension, k Zeilen, n Spalten
 	this->n = n; //Spalten
 	//this->M = new std::vector<std::vector<int>>(k);
 	
+}
+
+void KoerperFq::printMatrik(std::vector< std::vector<int> > M) {
+	for (int row = 0; row < M.size(); row++) {
+		std::cout << "	";
+		for (int col = 0; col < M[row].size(); col++) {
+			std::cout << M[row][col] << " ";
+		}
+		std::cout << std::endl;
+	}
+}
+
+bool KoerperFq::checkH() {
+	int sum;
+
+	for (int gz = 0; gz < this->Mkanon.size(); gz++) {
+		for (int hts = 0; hts < this->HT[0].size(); hts++) {
+			int wert = 0;
+			for (int gs = 0; gs < this->Mkanon[gz].size(); gs++) {
+				wert = this->elementAddition(wert, this->elementMultiplikation(this->Mkanon[gz][gs], this->HT[gs][hts]));
+			}
+			sum += wert;
+		}
+	}
+
+	return (sum == 0);
+}
+
+std::vector< std::vector<int> > KoerperFq::getCheckedH() {
+	std::vector< std::vector<int> > Ergebnis;
+
+	for (int gz = 0; gz < this->Mkanon.size(); gz++) {
+		std::vector<int> ErgebnisZ;
+		for (int hts = 0; hts < this->HT[0].size(); hts++) {
+			int wert = 0;
+			for (int gs = 0; gs < this->Mkanon[gz].size(); gs++) {
+				wert = this->elementAddition(wert, this->elementMultiplikation(this->Mkanon[gz][gs], this->HT[gs][hts]));
+			}
+			ErgebnisZ.push_back(wert);
+		}
+		Ergebnis.push_back(ErgebnisZ);
+	}
+
+	return Ergebnis;
 }
 
 void KoerperFq::setvector() {
@@ -32,38 +82,63 @@ void KoerperFq::setvector() {
 	}
 }
 
-void KoerperFq::printerH() {
-	int i = 0, j = 0;
-	std::cout << std::endl;
-	int rows = H.size();
-	int cols = 0;
-	if (rows > 0)
-		cols = H[0].size();
-	while (i < rows) {
-		while (j < cols) {
-			std::cout << H[i][j] << " ";
-			j++;
-		}
-		j = 0;
-		std::cout << std::endl;
-		i++;
-	}
-
+void KoerperFq::printM() {
+	std::cout <<  "Koerper:" << std::endl;
+	this->printMatrik(this->M);
 }
 
-void KoerperFq::printer() {
-	int i = 0, j = 0;
-	std::cout<< std::endl;
-	while (i < this->k) {
-		while (j < this->n) {
-			std::cout << M[i][j]<<" ";		
-			j++;
-		}
-		j = 0;
-		std::cout << std::endl;
-		i++;
-	}
+void KoerperFq::printMkanon() {
+	std::cout <<  "Koerper kanonisch:" << std::endl;
+	this->printMatrik(this->Mkanon);
+}
 
+void KoerperFq::printH() {
+	std::cout <<  "Kontrolmatrix H:" << std::endl;
+	this->printMatrik(this->H);
+}
+
+void KoerperFq::printHT() {
+	std::cout <<  "transponierte Kontrolmatrix H:" << std::endl;
+	this->printMatrik(this->HT);
+}
+
+void KoerperFq::print() {
+	std::cout << "/***************************************/" << std::endl;
+	std::cout << "q (Raum)   : " << this->q << std::endl;
+	std::cout << "k (Zeilen) : " << this->k << std::endl;
+	std::cout << "n (Spalten): " << this->n << std::endl;
+	this->printM();
+	std::cout << std::endl;
+	this->printMkanon();
+	std::cout << std::endl;
+	std::vector<Cell> pivots = this->getPivotElements(this->Mkanon);
+	std::cout << "Pivot = {";
+	std::string tmp = "";
+	for (int idx = 0; idx < pivots.size(); idx++) {
+		std::cout << tmp << "([" << pivots[idx].row << "][" << pivots[idx].col << "])";
+		tmp = ", ";
+	}
+	std::cout << "}" << std::endl << std::endl;
+	std::vector<int> npivots = this->getNichtPivotElements(pivots, this->n);
+	std::cout << "Nicht pivot Spalten = {";
+	tmp = "";
+	for (int idx = 0; idx < npivots.size(); idx++) {
+		std::cout << tmp << npivots[idx];
+		tmp = ", ";
+	}
+	std::cout << "}" << std::endl << std::endl;
+	this->printH();
+	std::cout << std::endl;
+	this->printHT();
+	std::cout << std::endl;
+	std::cout << "Die Kontrolmatrix ist ";
+	if (this->checkH() == false) {
+		std::cout << "nicht ";
+	}
+	std::cout << "eine Generatormatrix des dualen Codes" << std::endl;
+	this->printMatrik(this->getCheckedH());
+	std::cout << std::endl;
+	std::cout << "/***************************************/" << std::endl;
 }
 
 int KoerperFq::getelement(int row, int col) {
@@ -232,18 +307,61 @@ int KoerperFq::getk() {
 	return k;
 }
 
+std::vector<Cell> KoerperFq::getPivotElements(std::vector< std::vector<int> > M) {
+	std::vector<Cell> result;
+	//Pivotelemente bestimmen: Gehe von links oben, Spaltenweise. Finde an Punkt oben links !=0, dann lege als Pivotelement fest.
+	//ZÃ¤hle hoch Spalte und Zeile (Matrixreduktion) und fange wieder oben links an mit der Suche, gehe durch Spalte bis !=0
+	//ZÃ¤hle Spalte hoch wenn gefunden und ignoriere alle Zeilen bis einschlieï¿½lich gefundener (Matrixreduktion)
+	//Wiederhole bis alle Pivotelemente gefunden
+	int sizeCols = 0;
+	int sizeRows = M.size();
+	if (sizeRows > 0) {
+		sizeCols = M[0].size();
+	}
+	int rowwalker = 0;
+	for (int col = 0; col < sizeCols; col++) {
+		for (int row = rowwalker; row < sizeRows; row++) {
+			if (M[row][col] != 0) {
+				result.push_back(Cell(row, col));
+				int uberspringen = 0;
+				int nextRow = row + 1;
+				while ((nextRow < sizeRows) && (M[nextRow][col] != 0)) {
+					uberspringen++;
+					nextRow++;
+				}
+				rowwalker = row + 1 + uberspringen;
+				break; //Verlasse aktuelle Zeilenschleife und gehe zur nÃ¤chsten Zeile
 
+			}
+		}
+	}
+	return result;
+};
 
-std::vector<std::vector<int>> KoerperFq::kontroll(KoerperFq G) {
-	std::vector<std::vector<int>> M(G.M);
+std::vector<int> KoerperFq::getNichtPivotElements(std::vector<Cell> pivotElements, int colSize) {
+	std::vector<int> result;
+	int idx = 0;
+	for(int col = 0; col < colSize; col++) {
+		if (pivotElements[idx].col == col) {
+			idx++;
+		} else {
+			result.push_back(col);
+		}
+	}
+	return result;
+}
+
+std::vector< std::vector<int> > KoerperFq::kontroll(KoerperFq G) {
+	std::vector< std::vector<int> > M;
+	M = G.kanon(G);
+
 	int col = 0, row = 0, rowwalker = 0, indexwalker = 0;
 	std::vector<int> PivotindexZ;
 	std::vector<int> PivotindexS;
 	std::vector<int> NichtPivotindexS;
 	int anzPivot = 0;
-	std::vector<std::vector<int>> H;
+	std::vector< std::vector<int> > H;
 
-	M = G.kanon(G);
 
 	while (col < G.getn()) {
 		row = rowwalker;
@@ -252,11 +370,9 @@ std::vector<std::vector<int>> KoerperFq::kontroll(KoerperFq G) {
 			if (M[row][col] != 0) {
 				PivotindexZ.push_back(row);
 				PivotindexS.push_back(col);
-				//std::cout << "Zeile: " << row << std::endl;
-				//std::cout << "Spalte: " << col << std::endl;
 				anzPivot++;
 				rowwalker = row + 1;
-				row = G.getk(); //Verlasse aktuelle Zeilenschleife und gehe zur nächsten Zeile
+				row = G.getk(); //Verlasse aktuelle Zeilenschleife und gehe zur nï¿½chsten Zeile
 
 			}
 			/*else {
@@ -300,7 +416,7 @@ std::vector<std::vector<int>> KoerperFq::kontroll(KoerperFq G) {
 		H.push_back(h);
 		col++;
 	}
-	std::vector<std::vector<int>> HT;
+	std::vector< std::vector<int> > HT;
 
 	int cols = 0, rows = 0;
 
@@ -321,122 +437,76 @@ std::vector<std::vector<int>> KoerperFq::kontroll(KoerperFq G) {
 	return H;
 }
 
-
-
-std::vector<std::vector<int>> KoerperFq::kanon(KoerperFq G) {
-	int col = 0, row = 0, rowwalker = 0, indexwalker = 0;
+std::vector< std::vector<int> > KoerperFq::kanon(KoerperFq G) {
+	int rowwalker = 0;
 	bool signal = false;
-	std::vector<std::vector<int>> M(G.M);	
+	std::vector< std::vector<int> > M(G.M);
 	std::vector<int> speicher(n);
 
-//Tauschalgorithmus zur Ordnung der Matrix nach Vertauschungsregel
-	while (col < G.getn()) {
-		rowwalker = row; //Startpunkt des Matrixdurchlaufs festlegen
-		while (rowwalker < G.getk()) {
-
-			if ((M[rowwalker][col] != 0)) {
-				M[row].swap(M[rowwalker]); //Tausche Inhalt von aktuellem Startpunkt mit gefundener Zeile die unterschiedlich von 0 ist
+	//Tauschalgorithmus zur Ordnung der Matrix nach Vertauschungsregel
+	for (int col = 0; col < G.getn(); col++) {
+		for (int row = rowwalker; row < G.getk(); row++) {
+			if ((M[row][col] != 0)) {
+				M[rowwalker].swap(M[row]); //Tausche Inhalt von aktuellem Startpunkt mit gefundener Zeile die unterschiedlich von 0 ist
 				if (row != rowwalker) {
 					signal = true;
 				}
-				row++; //Nächster Start sollte eine Zeile überspringen hiermit, sollte bei nächstem Swap in selber Zeile auch dafür sorgen den letzten Swap nicht rückgängig zu machen
-				
+				rowwalker++; //Nï¿½chster Start sollte eine Zeile ï¿½berspringen hiermit, sollte bei nï¿½chstem Swap in selber Zeile auch dafï¿½r sorgen den letzten Swap nicht rï¿½ckgï¿½ngig zu machen
 			}
-			rowwalker++; //aktuelle Zeilen weiter durchlaufen
 		}
-		col++; //Wiederholen für nächste Spalte
 	}
 	
 //Anwendung der Unformungsregeln zum Erreichen der kanonischen Form
-//Beginn von unten nach oben benötigt! Abgeklärt in Vorlesung
-	int row2 = 0, col2 = 0, rowwalker2=0;
-	std::vector<int> PivotindexZ;
-	std::vector<int> PivotindexS;
-	int anzPivot = 0;
-//Pivotelemente bestimmen: Gehe von links oben, Spaltenweise. Finde an Punkt oben links !=0, dann lege als Pivotelement fest.
-	//Zähle hoch Spalte und Zeile (Matrixreduktion) und fange wieder oben links an mit der Suche, gehe durch Spalte bis !=0
-	//Zähle Spalte hoch wenn gefunden und ignoriere alle Zeilen bis einschließlich gefundener (Matrixreduktion)
-	//Wiederhole bis alle Pivotelemente gefunden
-
-	while (col2 < G.getn()) {
-		row2 = rowwalker2;
-		while (row2 < G.getk()) {
-
-			if (M[row2][col2] != 0) {
-				PivotindexZ.push_back(row2);
-				PivotindexS.push_back(col2);
-				std::cout << "Zeile: " << row2 << std::endl;
-				std::cout << "Spalte: " << col2 << std::endl;
-				anzPivot++;
-				//rowwalker2 = row2+1;
-				int uberspringen = 0;
-				int row3 = row2;
-				while ((row3 + 1 < M.size()) && (M[row3+1][col2]!=0)) {
-					uberspringen++;					
-					row3++;
-				}
-				rowwalker2 = row2 + 1 + uberspringen;
-				row2 = G.getk(); //Verlasse aktuelle Zeilenschleife und gehe zur nächsten Zeile
-				
-			}
-			row2++;
-		}
-		col2++;
-	}
-	this->anzPivot = anzPivot;
+//Beginn von unten nach oben benï¿½tigt! Abgeklï¿½rt in Vorlesung
+	std::vector<Cell> PivotElements = this->getPivotElements(M);
+	this->anzPivot = PivotElements.size();
 	//return M;
 	//Umformung in kanonische Form nun, da Position von Pivotelementen bekannt. Unten nach oben MUSS gemacht werden!
+	for (int pivotL = this->anzPivot-1; pivotL >= 0; pivotL--) {
+		Cell pivotE = PivotElements[pivotL];
 
-	int pivotL = anzPivot-1;
-	
-	while (pivotL >= 0) {
-
-		int col3 = PivotindexS[pivotL];
-		int rowM = PivotindexZ[pivotL];
-
-		while (col3 < G.getn()) { //Pivotelement wird auf 1 gesetzt durch Multiplikation mit Inversem
-			M[rowM][col3] = G.elementMultiplikation(M[rowM][col3],G.multiInverse(M[PivotindexZ[pivotL]][PivotindexS[pivotL]]));
-			col3++;
-		}
-
-		int row3 = PivotindexZ[pivotL]+1, row4=PivotindexZ[pivotL]-1;
-		col3 = PivotindexS[pivotL];
-		while (row3 < G.getk()) {
-			col3 = PivotindexS[pivotL];
-			int addInvers = G.additiveInverse(M[row3][col3]);
-			while (col3 < G.getn()) {
-				if (M[row3][PivotindexS[pivotL]] != 0) {
-					signal = true;
-				}
-				M[row3][col3] = G.elementAddition((M[row3][col3]),(G.elementMultiplikation((addInvers),(M[PivotindexZ[pivotL]][col3]))));
-				col3++;
+		// Pivotelement auf 1 setzten (mittels Multiplativen inversen)
+		if (M[pivotE.row][pivotE.col] > 1) {
+			for (int col = pivotE.col; col < G.getn(); col++) {
+				M[pivotE.row][col] = G.elementMultiplikation(M[pivotE.row][col], G.multiInverse(M[pivotE.row][pivotE.col]));
 			}
-			row3++;
 		}
 
-		while (row4 >= 0) {
-			col3 = PivotindexS[pivotL];
-			int addInvers = G.additiveInverse(M[row4][col3]);
-			while (col3 < G.getn()) {
-				if (M[row4][PivotindexS[pivotL]] != 0) {
-					signal = true;
+		// Alle Spaltenelemente unter dem Pivotelement Nullen
+		for (int nextRow = (pivotE.row + 1); nextRow < G.getk(); nextRow++) {
+			if (M[nextRow][pivotE.col] != 0) {
+				signal = true;
+				int addInvers = G.additiveInverse(M[nextRow][pivotE.col]);
+				for (int col = 0; col < G.getn(); col++) {
+					M[nextRow][col] = G.elementAddition(M[nextRow][col], G.elementMultiplikation(addInvers, M[pivotE.row][col]));
 				}
-				M[row4][col3] = G.elementAddition((M[row4][col3]), (G.elementMultiplikation((addInvers), (M[PivotindexZ[pivotL]][col3]))));
-				col3++;
 			}
-			row4--;
 		}
 
-
-		pivotL--;
+		// Alle Spaltenelemente Ã¼ber dem Pivotelement Nullen
+		for (int prevRow = (pivotE.row - 1); prevRow >= 0; prevRow--) {
+			if (M[prevRow][pivotE.col] != 0) {
+				signal = true;
+				int addInvers = G.additiveInverse(M[prevRow][pivotE.col]);
+				for (int col = 0; col < G.getn(); col++) {
+					M[prevRow][col] = G.elementAddition(M[prevRow][col], G.elementMultiplikation(addInvers, M[pivotE.row][col]));
+				}
+			}
+		}
 	}
-	if (signal == true) {
+	if (signal) {
 		KoerperFq G2(G.q,G.k,G.n);
 		G2.M = M;
-		G2.kanon(G2);
+		M = G2.kanon(G2);
+	} else {
+		this->Mkanon = M;
 	}
 
 	return M;
+}
+
+std::vector< std::vector<int> > KoerperFq::syndrom(KoerperFq G, int colSize) {
+	int anz = pow(G.q, (G.n - G.k));
 }
 
 KoerperFq::~KoerperFq()

@@ -1,36 +1,151 @@
 #include "KoerperFq.h"
 #include <iostream>
+using namespace std;
 
 void main() {
 	int a;
-	KoerperFq testelement(2, 2, 5); //3 Körper, 3 Zeilen, 6 Spalten
-	testelement.setvector();
-	testelement.M=testelement.kanon(testelement);
-	testelement.H = testelement.kontroll(testelement);
-	testelement.printer();
-	testelement.printerH();
-	std::cin >> a;
+	cout << "Wählen Sie bitte einer der Optionen:" << endl;
+	cout << "	1: F3 [6,3]" << endl;
+	cout << "		0 1 1 0 1 2" << endl;
+	cout << "		1 0 1 1 2 1" << endl;
+	cout << "		0 0 0 1 1 1" << endl;
+	cout << "	2: F3 [6,3]" << endl;
+	cout << "		0 1 1 0 1 2" << endl;
+	cout << "		1 0 1 1 2 1" << endl;
+	cout << "		2 0 0 1 1 1" << endl;
+	cout << "	3: F4 [5,3]" << endl;
+	cout << "		1 0 3 0 1" << endl;
+	cout << "		0 1 1 0 1" << endl;
+	cout << "		0 0 0 1 2" << endl;
+	cout << "	4: F2 [5,2]" << endl;
+	cout << "		1 1 0 1 0" << endl;
+	cout << "		0 1 0 1 0" << endl;
+	cout << "	Sonst: eigene Eingabe" << endl;
+	cout << "Option: ";
+	cin >> a;
 
-}
-
-std::vector<std::vector<int>> matrixmult(std::vector<std::vector<int>>G, std::vector<std::vector<int>>HT) {
-
-	std::vector<std::vector<int>> Ergebnis;
-	std::vector<int> ErgebnisZ;
-
-	for (int gz = 0; gz < G.size(); gz++) {
-		for (int gs = 0; gs < G[gz].size(); gs++) {
-			int wert = 0;
-			for (int hts = 0; hts < HT.size(); hts++) {
-				wert += G[gz][gs] * HT[0][hts];
-			}
-			ErgebnisZ.push_back(wert);
+	int q, k, n;
+	vector< vector<int> > M;
+	bool setown = false;
+	switch(a) {
+		case 1: {
+			q = 3;
+			k = 3;
+			n = 6;
+			vector<int> z(n, 0);
+			z[0] = 0;
+			z[1] = 1;
+			z[2] = 1;
+			z[3] = 0;
+			z[4] = 1;
+			z[5] = 2;
+			M.push_back(z); // Zeile 1
+			z[0] = 1;
+			z[1] = 0;
+			z[2] = 1;
+			z[3] = 1;
+			z[4] = 2;
+			z[5] = 1;
+			M.push_back(z); // Zeile 2
+			z[0] = 0;
+			z[1] = 0;
+			z[2] = 0;
+			z[3] = 1;
+			z[4] = 1;
+			z[5] = 1;
+			M.push_back(z); // Zeile 3
+			break;
 		}
-		Ergebnis.push_back(ErgebnisZ);
+		case 2: {
+			q = 3;
+			k = 3;
+			n = 6;
+			vector<int> z(n, 0);
+			z[0] = 1;
+			z[1] = 0;
+			z[2] = 2;
+			z[3] = 0;
+			z[4] = 1;
+			M.push_back(z); // Zeile 1
+			z[0] = 0;
+			z[1] = 1;
+			z[2] = 1;
+			z[3] = 0;
+			z[4] = 1;
+			M.push_back(z); // Zeile 2
+			z[0] = 0;
+			z[1] = 0;
+			z[2] = 0;
+			z[3] = 1;
+			z[4] = 2;
+			M.push_back(z); // Zeile 3
+			break;
+		}
+		case 3: {
+			q = 4;
+			k = 3;
+			n = 5;
+			vector<int> z(n, 0);
+			z[0] = 0;
+			z[1] = 1;
+			z[2] = 1;
+			z[3] = 0;
+			z[4] = 1;
+			z[5] = 2;
+			M.push_back(z); // Zeile 1
+			z[0] = 1;
+			z[1] = 0;
+			z[2] = 1;
+			z[3] = 1;
+			z[4] = 2;
+			z[5] = 1;
+			M.push_back(z); // Zeile 2
+			z[0] = 2;
+			z[1] = 0;
+			z[2] = 0;
+			z[3] = 1;
+			z[4] = 1;
+			z[5] = 1;
+			M.push_back(z); // Zeile 3
+			break;
+		}
+		case 4: {
+			q = 4;
+			k = 2;
+			n = 5;
+			vector<int> z(n, 0);
+			z[0] = 1;
+			z[1] = 1;
+			z[2] = 0;
+			z[3] = 1;
+			z[4] = 0;
+			M.push_back(z); // Zeile 1
+			z[0] = 1;
+			z[1] = 0;
+			z[2] = 1;
+			z[3] = 0;
+			z[4] = 1;
+			M.push_back(z); // Zeile 2
+			break;
+		}
+		default: {
+			cout << endl << "q: ";
+			cin >> q;
+			cout << endl << "k: ";
+			cin >> k;
+			cout << endl << "n: ";
+			cin >> n;
+		}
 	}
 
-
-
-
-	return Ergebnis;
+	KoerperFq testelement(q, k, n); //3 Körper, 3 Zeilen, 6 Spalten
+	if (setown) {
+		testelement.setvector();
+	} else {
+		testelement.M = M;
+	}
+	testelement.Mkanon =testelement.kanon(testelement);
+	testelement.H = testelement.kontroll(testelement);
+	testelement.print();
+	std::cin >> a;
 }
