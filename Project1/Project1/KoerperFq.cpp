@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string.h>
 #include <math.h>
+#include <string>
+#include <math.h>
 
 Cell::Cell(int row = 0, int col = 0) {
 	this->row = row;
@@ -350,6 +352,115 @@ std::vector<int> KoerperFq::getNichtPivotElements(std::vector<Cell> pivotElement
 	}
 	return result;
 }
+
+std::vector<int> KoerperFq::VektorMultMatrix(std::vector<int> ein, std::vector<std::vector<int>> M) {
+	
+	std::vector<int> ergebnis(M[0].size(),0);
+
+	for (int i = 0; i < M[0].size(); i++) {
+
+		for (int j = 0; j < ein.size(); j++) {
+
+			ergebnis[i] = elementAddition(ergebnis[i], elementMultiplikation(ein[j],M[i][j]));
+
+		}
+
+	}
+
+	return ergebnis;
+
+}
+
+std::vector<int> KoerperFq::Vektoraddition(std::vector<int> a, std::vector<int> b) {
+	std::vector<int> ergebnis(a.size, 0);
+	for (int i; i < a.size; i++) {
+		ergebnis[i] = elementAddition(a[i], b[i]);
+	}
+}
+
+void KoerperFq::BestimmeSyndromtabelle() {
+
+	int SyndromAnzahl = pow(this->q, (this->n-this->k));
+	int syndromzaehler = 0;
+	
+	std::vector< std::vector<int> > moglichesSyndrom;
+	std::vector<int> n(this->n, 0);
+	moglichesSyndrom.push_back(n);
+	//Erstelle alle Vektoren, die sich nur an einer Stelle vom Nullvektor unterscheiden
+	for (int j = 1; j < this->q; j++) {
+
+		for (int i = 0; i < this->n; i++) {
+			
+			std::vector<int> moglicherSyndromVector(this->n, 0);
+			moglicherSyndromVector[i] = j;
+			moglichesSyndrom.push_back(moglicherSyndromVector);
+
+		}
+	}
+	
+
+
+		for (int i = 0; i < moglichesSyndrom.size(); i++) {
+
+			//testen ob neues SyndromElement
+			bool istsyndrom = true;
+			if (this->SyndromtblE.empty() == false) {
+				std::vector<int> ergebnis(this->HT[0].size(),0);
+				ergebnis = VektorMultMatrix(moglichesSyndrom[i], this->HT);
+				for (int k = 0; k < SyndromtblE.size(); k++) {
+					if (ergebnis == SyndromtblE[k]) {
+						istsyndrom = false;
+					}
+				}
+				if (istsyndrom == true) {
+					this->SyndromtblE.push_back(ergebnis);
+					this->Syndromtbl.push_back(moglichesSyndrom[i]);
+					syndromzaehler++;
+				}
+			}
+
+			else {
+				this->SyndromtblE.push_back(moglichesSyndrom[i]);
+				this->Syndromtbl.push_back(VektorMultMatrix(moglichesSyndrom[i], this->HT));
+				syndromzaehler++;
+			}
+
+			for (int j = 0; j < moglichesSyndrom.size(); j++) {
+				if ((moglichesSyndrom[i]==moglichesSyndrom[j])==false) {
+					std::vector<int> ablage(this->n, 0);
+					ablage = Vektoraddition(moglichesSyndrom[i], moglichesSyndrom[j]);
+					bool istneu = true;
+					for (int g = 0; g < moglichesSyndrom.size(); g++) {
+						if ((ablage == moglichesSyndrom[g]) == true) {
+							istneu = false;
+						}
+					}
+					if (istneu == true) {
+						moglichesSyndrom.push_back(ablage);
+					}
+				}
+			}
+		
+			if (syndromzaehler == SyndromAnzahl) {
+				break;
+			}
+		}
+
+
+}
+
+/*std::vector< std::vector<int> > FindeSyndrome(std::vector< std::vector<int> > vorherige, int index) {
+
+	std::vector< std::vector<int> > zwischenspeicher(vorherige);
+	int naechsterindex = 0;
+
+	for (int i = 0; i < index; i++) {
+
+
+
+	}
+
+}*/
 
 std::vector< std::vector<int> > KoerperFq::kontroll(KoerperFq G) {
 	std::vector< std::vector<int> > M;

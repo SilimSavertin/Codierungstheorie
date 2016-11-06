@@ -148,4 +148,7 @@ void main() {
 	testelement.H = testelement.kontroll(testelement);
 	testelement.print();
 	std::cin >> a;
+
+
+
 }

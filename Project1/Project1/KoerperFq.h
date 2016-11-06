@@ -21,6 +21,7 @@ public:
 	std::vector< std::vector<int> > H;
 	std::vector< std::vector<int> > HT;
 	std::vector< std::vector<int> > Syndromtbl;
+	std::vector< std::vector<int> > SyndromtblE;
 
 	KoerperFq(int q, int k, int n);
 	~KoerperFq();
@@ -39,6 +40,9 @@ public:
 	int multiInverse(int a);
 	std::vector< std::vector<int> > kanon(KoerperFq G);
 	std::vector< std::vector<int> > kontroll(KoerperFq G);
+	std::vector<int> VektorMultMatrix(std::vector<int> ein, std::vector<std::vector<int>> M);
+	void BestimmeSyndromtabelle();
+	std::vector<int> Vektoraddition(std::vector<int> a, std::vector<int> b);
 	int getn();
 	int getk();
 	std::vector<Cell> getPivotElements(std::vector< std::vector<int> > M);
