@@ -30,7 +30,7 @@ void KoerperFq::printMatrik(std::vector< std::vector<int> > M) {
 }
 
 bool KoerperFq::checkH() {
-	int sum;
+	int sum=0;
 
 	for (int gz = 0; gz < this->Mkanon.size(); gz++) {
 		for (int hts = 0; hts < this->HT[0].size(); hts++) {
@@ -141,6 +141,19 @@ void KoerperFq::print() {
 	this->printMatrik(this->getCheckedH());
 	std::cout << std::endl;
 	std::cout << "/***************************************/" << std::endl;
+	std::cout << "Die Syndromtabelle ist:" << std::endl;
+	
+	for (int i = 0; i < Syndromtbl.size();i++) {
+		std::cout << "e" << i << "*H^T ";
+		for (int j=0; j < SyndromtblE[i].size(); j++) {
+			std::cout << SyndromtblE[i][j];
+		}
+		std::cout << " ;Mit e" << i << " von: ";
+		for (int k=0; k < Syndromtbl[i].size(); k++) {
+			std::cout<< Syndromtbl[i][k];
+		}
+		std::cout << std::endl;
+	}
 }
 
 int KoerperFq::getelement(int row, int col) {
@@ -344,7 +357,7 @@ std::vector<int> KoerperFq::getNichtPivotElements(std::vector<Cell> pivotElement
 	std::vector<int> result;
 	int idx = 0;
 	for(int col = 0; col < colSize; col++) {
-		if (pivotElements[idx].col == col) {
+		if ((idx<pivotElements.size())&&(pivotElements[idx].col == col)) {
 			idx++;
 		} else {
 			result.push_back(col);
@@ -361,7 +374,7 @@ std::vector<int> KoerperFq::VektorMultMatrix(std::vector<int> ein, std::vector<s
 
 		for (int j = 0; j < ein.size(); j++) {
 
-			ergebnis[i] = elementAddition(ergebnis[i], elementMultiplikation(ein[j],M[i][j]));
+			ergebnis[i] = elementAddition(ergebnis[i], elementMultiplikation(ein[j],M[j][i]));
 
 		}
 
@@ -372,10 +385,11 @@ std::vector<int> KoerperFq::VektorMultMatrix(std::vector<int> ein, std::vector<s
 }
 
 std::vector<int> KoerperFq::Vektoraddition(std::vector<int> a, std::vector<int> b) {
-	std::vector<int> ergebnis(a.size, 0);
-	for (int i; i < a.size; i++) {
+	std::vector<int> ergebnis(a.size(), 0);
+	for (int i=0; i < a.size(); i++) {
 		ergebnis[i] = elementAddition(a[i], b[i]);
 	}
+	return ergebnis;
 }
 
 void KoerperFq::BestimmeSyndromtabelle() {
@@ -404,6 +418,7 @@ void KoerperFq::BestimmeSyndromtabelle() {
 
 			//testen ob neues SyndromElement
 			bool istsyndrom = true;
+
 			if (this->SyndromtblE.empty() == false) {
 				std::vector<int> ergebnis(this->HT[0].size(),0);
 				ergebnis = VektorMultMatrix(moglichesSyndrom[i], this->HT);
@@ -420,11 +435,12 @@ void KoerperFq::BestimmeSyndromtabelle() {
 			}
 
 			else {
-				this->SyndromtblE.push_back(moglichesSyndrom[i]);
-				this->Syndromtbl.push_back(VektorMultMatrix(moglichesSyndrom[i], this->HT));
+				this->Syndromtbl.push_back(moglichesSyndrom[i]);
+				this->SyndromtblE.push_back(VektorMultMatrix(moglichesSyndrom[i], this->HT));
 				syndromzaehler++;
 			}
 
+			//erzeuge weitere mögliche Vektoren zur Syndromgenerierung
 			for (int j = 0; j < moglichesSyndrom.size(); j++) {
 				if ((moglichesSyndrom[i]==moglichesSyndrom[j])==false) {
 					std::vector<int> ablage(this->n, 0);
@@ -441,6 +457,7 @@ void KoerperFq::BestimmeSyndromtabelle() {
 				}
 			}
 		
+			//falls alle Syndrome gefunden, verlasse Schleife
 			if (syndromzaehler == SyndromAnzahl) {
 				break;
 			}
@@ -616,9 +633,9 @@ std::vector< std::vector<int> > KoerperFq::kanon(KoerperFq G) {
 	return M;
 }
 
-std::vector< std::vector<int> > KoerperFq::syndrom(KoerperFq G, int colSize) {
+/*std::vector< std::vector<int> > KoerperFq::syndrom(KoerperFq G, int colSize) {
 	int anz = pow(G.q, (G.n - G.k));
-}
+}*/
 
 KoerperFq::~KoerperFq()
 {

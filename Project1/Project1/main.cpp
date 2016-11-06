@@ -110,7 +110,7 @@ void main() {
 			break;
 		}
 		case 4: {
-			q = 4;
+			q = 2;
 			k = 2;
 			n = 5;
 			vector<int> z(n, 0);
@@ -146,7 +146,9 @@ void main() {
 	}
 	testelement.Mkanon =testelement.kanon(testelement);
 	testelement.H = testelement.kontroll(testelement);
+	testelement.BestimmeSyndromtabelle();
 	testelement.print();
+	
 	std::cin >> a;
 
 

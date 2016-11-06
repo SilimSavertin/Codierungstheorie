@@ -20,8 +20,8 @@ public:
 	std::vector< std::vector<int> > Mkanon;
 	std::vector< std::vector<int> > H;
 	std::vector< std::vector<int> > HT;
-	std::vector< std::vector<int> > Syndromtbl;
-	std::vector< std::vector<int> > SyndromtblE;
+	std::vector< std::vector<int> > Syndromtbl; //Vektor e1-whatever
+	std::vector< std::vector<int> > SyndromtblE; //e*HT
 
 	KoerperFq(int q, int k, int n);
 	~KoerperFq();
@@ -49,7 +49,7 @@ public:
 	std::vector<int> getNichtPivotElements(std::vector<Cell> pivotElements, int colSize);
 	std::vector< std::vector<int> > getCheckedH();
 	bool checkH();
-	std::vector< std::vector<int> > syndrom(KoerperFq G, int colSize);
+	//std::vector< std::vector<int> > syndrom(KoerperFq G, int colSize);
 };
 
 #endif /* KOERPERFQ_H_ */
