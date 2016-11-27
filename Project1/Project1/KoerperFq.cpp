@@ -3,7 +3,6 @@
 #include <string.h>
 #include <math.h>
 #include <string>
-#include <math.h>
 
 Cell::Cell(int row = 0, int col = 0) {
 	this->row = row;
@@ -478,6 +477,70 @@ void KoerperFq::BestimmeSyndromtabelle() {
 	}
 
 }*/
+
+std::vector<int> KoerperFq::Nachfolger(std::vector<int> g, int pos) {
+
+	std::vector<int> neuerVektor(g);
+
+	if (pos == 0) {
+		return g;
+	}
+	else if (g[pos] < this->q - 1) {
+		neuerVektor[pos]++;
+		return neuerVektor;
+	}
+	else {
+		neuerVektor[pos] = 0;
+		Nachfolger(neuerVektor, pos - 1);
+	}
+
+}
+
+std::vector< std::vector<int> > KoerperFq::Hemming(int q, int n, int k) {
+	int m = n - k;
+	std::vector< std::vector<int> > ergebnis;
+	int anzEq = ((pow(q,m)-1)/(q-1));
+
+	//bestimme Aequivalenzklassen
+
+	for (int i = 0; 0 < m; i++) {
+		std::vector<int> speicher(m, 0);
+
+		speicher[i] = 1;
+
+
+
+
+	}
+
+
+
+/*	for (int idx = 0; idx < m; idx++) {
+		int sIdx = (m - 1) - idx;
+		std::vector<int> speicher(m, 0);
+
+		speicher[sIdx] = 1;
+		ergebnis.push_back(speicher);
+
+		int max = pow(m, idx) - 1;
+		int laufIdx = m - 1;
+		for (int x = 0; x < max; x++) {
+			speicher[laufIdx] = this->elementAddition(speicher[laufIdx], 1);
+			ergebnis.push_back(speicher);
+			if (speicher[laufIdx] == 0) {
+				int x = laufIdx;
+				while ((speicher[x] == 0) && (x < idx)) {
+					x -= 1;
+					speicher[x] = this->elementAddition(speicher[x], 1);
+				}
+				laufIdx = m - 1;
+			}
+		}
+	}
+	this->printMatrik(ergebnis);
+	return ergebnis;*/
+
+}
 
 std::vector< std::vector<int> > KoerperFq::kontroll(KoerperFq G) {
 	std::vector< std::vector<int> > M;

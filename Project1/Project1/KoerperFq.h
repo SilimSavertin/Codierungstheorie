@@ -38,9 +38,11 @@ public:
 	int elementMultiplikation(int a, int b);
 	int additiveInverse(int a);
 	int multiInverse(int a);
+	std::vector<int> Nachfolger(std::vector<int> g, int pos);
 	std::vector< std::vector<int> > kanon(KoerperFq G);
 	std::vector< std::vector<int> > kontroll(KoerperFq G);
 	std::vector<int> VektorMultMatrix(std::vector<int> ein, std::vector<std::vector<int>> M);
+	std::vector< std::vector<int> > Hemming(int q, int n, int k);
 	void BestimmeSyndromtabelle();
 	std::vector<int> Vektoraddition(std::vector<int> a, std::vector<int> b);
 	int getn();
