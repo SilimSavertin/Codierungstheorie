@@ -1,35 +1,36 @@
 ﻿  KoerperFq.cpp
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(23): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(25): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(22): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(24): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(34): warning C4018: '<': signed/unsigned mismatch
 c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(35): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(36): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(38): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(51): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(53): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(55): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(119): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(127): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(146): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(148): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(152): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(360): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(373): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(375): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(389): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(397): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(417): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(425): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(444): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(449): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(485): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(496): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(569): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(572): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(584): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(588): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(236): warning C4715: 'KoerperFq::additiveInverse': not all control paths return a value
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(281): warning C4715: 'KoerperFq::elementMultiplikation': not all control paths return a value
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(316): warning C4715: 'KoerperFq::multiInverse': not all control paths return a value
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(210): warning C4715: 'KoerperFq::elementAddition': not all control paths return a value
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(37): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(50): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(52): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(54): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(118): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(126): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(145): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(147): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(151): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(359): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(372): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(374): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(388): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(396): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(416): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(424): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(443): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(448): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(499): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(610): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(613): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(625): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(629): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(648): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(652): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(209): warning C4715: 'KoerperFq::elementAddition': not all control paths return a value
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(235): warning C4715: 'KoerperFq::additiveInverse': not all control paths return a value
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(280): warning C4715: 'KoerperFq::elementMultiplikation': not all control paths return a value
+c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\koerperfq.cpp(315): warning C4715: 'KoerperFq::multiInverse': not all control paths return a value
   Project1.vcxproj -> C:\Users\User\Documents\GitHub\Codierungstheorie\Codierungstheorie\Project1\Debug\Project1.exe
   Project1.vcxproj -> C:\Users\User\Documents\GitHub\Codierungstheorie\Codierungstheorie\Project1\Debug\Project1.pdb (Partial PDB)

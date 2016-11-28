@@ -20,6 +20,7 @@ public:
 	std::vector< std::vector<int> > Mkanon;
 	std::vector< std::vector<int> > H;
 	std::vector< std::vector<int> > HT;
+	std::vector< std::vector<int> > Hemm;
 	std::vector< std::vector<int> > Syndromtbl; //Vektor e1-whatever
 	std::vector< std::vector<int> > SyndromtblE; //e*HT
 
@@ -43,6 +44,7 @@ public:
 	std::vector< std::vector<int> > kontroll(KoerperFq G);
 	std::vector<int> VektorMultMatrix(std::vector<int> ein, std::vector<std::vector<int>> M);
 	std::vector< std::vector<int> > Hemming(int q, int n, int k);
+	std::vector< std::vector<int> > trans(std::vector< std::vector<int> > H);
 	void BestimmeSyndromtabelle();
 	std::vector<int> Vektoraddition(std::vector<int> a, std::vector<int> b);
 	int getn();

@@ -481,18 +481,15 @@ void KoerperFq::BestimmeSyndromtabelle() {
 std::vector<int> KoerperFq::Nachfolger(std::vector<int> g, int pos) {
 
 	std::vector<int> neuerVektor(g);
-
-	if (pos == 0) {
-		return g;
-	}
-	else if (g[pos] < this->q - 1) {
+	
+	if (g[pos] < (this->q - 1)) {
 		neuerVektor[pos]++;
-		return neuerVektor;
 	}
 	else {
 		neuerVektor[pos] = 0;
-		Nachfolger(neuerVektor, pos - 1);
+		neuerVektor = Nachfolger(neuerVektor, (pos - 1));
 	}
+	return neuerVektor;
 
 }
 
@@ -503,15 +500,29 @@ std::vector< std::vector<int> > KoerperFq::Hemming(int q, int n, int k) {
 
 	//bestimme Aequivalenzklassen
 
-	for (int i = 0; 0 < m; i++) {
+	for (int i = m-1; i >= 0; i--) {
 		std::vector<int> speicher(m, 0);
+		std::vector<int> speicher2(m, 0);
 
 		speicher[i] = 1;
+		//ergebnis.push_back(speicher);
+		while (speicher[i] == 1) {
+
+			ergebnis.push_back(speicher);
+			speicher2 = Nachfolger(speicher, speicher.size() - 1);
+			speicher = speicher2;
+			
+		}
 
 
 
 
 	}
+
+	
+	ergebnis = trans(ergebnis);
+	printMatrik(ergebnis);
+	return ergebnis;
 
 
 
@@ -626,6 +637,28 @@ std::vector< std::vector<int> > KoerperFq::kontroll(KoerperFq G) {
 	this->HT = HT;
 	
 	return H;
+}
+
+std::vector< std::vector<int> > KoerperFq::trans(std::vector< std::vector<int> > H) {
+
+	std::vector< std::vector<int> > HT;
+
+	int cols = 0, rows = 0;
+
+	while (cols < H[0].size()) {
+
+		std::vector<int> rowT;
+		rows = 0;
+		while (rows < H.size()) {
+
+			rowT.push_back(H[rows][cols]);
+			rows++;
+		}
+		HT.push_back(rowT);
+		cols++;
+	}
+	return HT;
+
 }
 
 std::vector< std::vector<int> > KoerperFq::kanon(KoerperFq G) {

@@ -139,16 +139,15 @@ void main() {
 	}
 
 	KoerperFq testelement(q, k, n); //3 Körper, 3 Zeilen, 6 Spalten
-	testelement.Hemming(4, 4, 1);
-	if (setown) {
+	testelement.Hemming(q,n,k);
+	/*if (setown) {
 		testelement.setvector();
 	} else {
 		testelement.M = M;
 	}
 	testelement.Mkanon =testelement.kanon(testelement);
 	testelement.H = testelement.kontroll(testelement);
-	testelement.BestimmeSyndromtabelle();
-	testelement.print();
+	testelement.BestimmeSyndromtabelle();*/
 	std::cin >> a;
 
 
