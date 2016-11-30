@@ -135,19 +135,33 @@ void main() {
 			cin >> k;
 			cout << endl << "n: ";
 			cin >> n;
+			setown = true;
 		}
 	}
 
-	KoerperFq testelement(q, k, n); //3 Körper, 3 Zeilen, 6 Spalten
-	testelement.Hemming(q,n,k);
+	KoerperFq testelement(q, k, n); // Körper, Zeilen, Spalten
+	//testelement.Hemm=testelement.Hemming(q,n,k);
+	std::cout << std::endl << "-----------" << std::endl;
+	testelement.printMatrik(testelement.RM(3,2));
+	//std::vector<int> testfehler(4,0);
+	/*for (int i = 0; i < n; i++) {
+		std::cin >> testfehler[i];
+	}
+	std::vector<int> korrigiert(testelement.hemmingFehler(testelement.Hemm,testfehler));
+	std::cout << std::endl;
+	for (int j = 0; j < korrigiert.size(); j++) {
+		std::cout << korrigiert[j];
+	}*/
+
 	/*if (setown) {
 		testelement.setvector();
 	} else {
 		testelement.M = M;
 	}
-	testelement.Mkanon =testelement.kanon(testelement);
-	testelement.H = testelement.kontroll(testelement);
-	testelement.BestimmeSyndromtabelle();*/
+	testelement.printMatrik(testelement.Paritaet(testelement.M));*/
+	//testelement.Mkanon =testelement.kanon(testelement);
+	//testelement.H = testelement.kontroll(testelement);
+	//testelement.BestimmeSyndromtabelle();
 	std::cin >> a;
 
 

@@ -13,7 +13,7 @@ public:
 class KoerperFq
 {
 private:
-	void printMatrik(std::vector< std::vector<int> > M);
+	std::vector< std::vector<int> > zusammenRM(std::vector< std::vector<int> > Moben, std::vector< std::vector<int> >Munten);
 public:
 	int q, n, k,anzPivot=0;
 	std::vector< std::vector<int> > M;
@@ -23,7 +23,7 @@ public:
 	std::vector< std::vector<int> > Hemm;
 	std::vector< std::vector<int> > Syndromtbl; //Vektor e1-whatever
 	std::vector< std::vector<int> > SyndromtblE; //e*HT
-
+	void printMatrik(std::vector< std::vector<int> > M);
 	KoerperFq(int q, int k, int n);
 	~KoerperFq();
 	void setvector();
@@ -40,6 +40,9 @@ public:
 	int additiveInverse(int a);
 	int multiInverse(int a);
 	std::vector<int> Nachfolger(std::vector<int> g, int pos);
+	std::vector<int> hemmingFehler(std::vector< std::vector<int> > Hem, std::vector<int> VektorY);
+	std::vector< std::vector<int> > Paritaet(std::vector< std::vector<int> > Matrix);
+	std::vector< std::vector<int> > RM(int m, int t);
 	std::vector< std::vector<int> > kanon(KoerperFq G);
 	std::vector< std::vector<int> > kontroll(KoerperFq G);
 	std::vector<int> VektorMultMatrix(std::vector<int> ein, std::vector<std::vector<int>> M);

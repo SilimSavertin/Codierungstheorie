@@ -493,6 +493,48 @@ std::vector<int> KoerperFq::Nachfolger(std::vector<int> g, int pos) {
 
 }
 
+std::vector< std::vector<int> > KoerperFq::RM(int m, int t) {
+	if (t > m ) {
+		t = m;
+	}
+	std::vector< std::vector<int> > r;
+	if (t == 0) {
+		std::vector<int> einser(pow(2, m), 1);
+		r.push_back(einser);
+	}
+	else if (m == 0) {		
+		std::vector<int> eins(1, 1);
+		r.push_back(eins);
+	}
+	else {
+		r = zusammenRM(RM(m - 1, t), RM(m - 1, t - 1));
+	}
+	return r;
+}
+
+std::vector< std::vector<int> > KoerperFq::zusammenRM(std::vector< std::vector<int> > Moben, std::vector< std::vector<int> >Munten) {
+	std::vector< std::vector<int> > ergebnis;
+	std::vector<int> Zeile;
+	for (int i = 0; i < Moben.size(); i++) {
+		std::vector<int> Zeile;
+		Zeile = Moben[i];
+		
+		for (int j = 0; j < Moben[i].size(); j++) {
+			Zeile.push_back(Moben[i][j]);
+		}
+		ergebnis.push_back(Zeile);
+	}
+	for (int i = 0; i < Munten.size(); i++) {
+		std::vector<int> Zeile(Munten[i].size(), 0);
+
+		for (int j = 0; j < Munten[i].size(); j++) {
+			Zeile.push_back(Munten[i][j]);
+		}
+		ergebnis.push_back(Zeile);
+	}
+	return ergebnis;
+}
+
 std::vector< std::vector<int> > KoerperFq::Hemming(int q, int n, int k) {
 	int m = n - k;
 	std::vector< std::vector<int> > ergebnis;
@@ -502,56 +544,62 @@ std::vector< std::vector<int> > KoerperFq::Hemming(int q, int n, int k) {
 
 	for (int i = m-1; i >= 0; i--) {
 		std::vector<int> speicher(m, 0);
-		std::vector<int> speicher2(m, 0);
 
 		speicher[i] = 1;
 		//ergebnis.push_back(speicher);
 		while (speicher[i] == 1) {
-
 			ergebnis.push_back(speicher);
-			speicher2 = Nachfolger(speicher, speicher.size() - 1);
-			speicher = speicher2;
-			
+			speicher = Nachfolger(speicher, speicher.size() - 1);	
 		}
-
-
-
-
-	}
-
-	
+	}	
 	ergebnis = trans(ergebnis);
 	printMatrik(ergebnis);
 	return ergebnis;
 
+}
 
+std::vector<int> KoerperFq::hemmingFehler(std::vector< std::vector<int> > Hem, std::vector<int> VektorY) {
 
-/*	for (int idx = 0; idx < m; idx++) {
-		int sIdx = (m - 1) - idx;
-		std::vector<int> speicher(m, 0);
+	std::vector< std::vector<int> > HemT(trans(Hem));
 
-		speicher[sIdx] = 1;
-		ergebnis.push_back(speicher);
-
-		int max = pow(m, idx) - 1;
-		int laufIdx = m - 1;
-		for (int x = 0; x < max; x++) {
-			speicher[laufIdx] = this->elementAddition(speicher[laufIdx], 1);
-			ergebnis.push_back(speicher);
-			if (speicher[laufIdx] == 0) {
-				int x = laufIdx;
-				while ((speicher[x] == 0) && (x < idx)) {
-					x -= 1;
-					speicher[x] = this->elementAddition(speicher[x], 1);
-				}
-				laufIdx = m - 1;
-			}
+	std::vector<int> synd(VektorMultMatrix(VektorY,HemT));
+	std::vector<int> NullVektor(synd.size(), 0);
+	if (synd == NullVektor) return VektorY;
+	int skalar=1;
+	for (int i = 0; i < synd.size(); i++) {
+		if (synd[i] != 0) {
+			skalar = multiInverse(synd[i]);
+			i = synd.size();
 		}
 	}
-	this->printMatrik(ergebnis);
-	return ergebnis;*/
+	for (int j = 0; j < synd.size(); j++) {
+		synd[j] = elementMultiplikation(skalar, synd[j]);
+	}
+	int SpaltenNr = 0;
+	for (int k = 0; k < HemT.size(); k++) {
+		if (HemT[k] == synd) {
+			SpaltenNr = k;
+		}
+	}
 
+	VektorY[SpaltenNr] = elementAddition(VektorY[SpaltenNr], additiveInverse(skalar));
+	return VektorY;
 }
+
+std::vector< std::vector<int> > KoerperFq::Paritaet(std::vector< std::vector<int> > Matrix) {
+	int xi = 0;
+	//std::vector<int> erw(Matrix[0].size(), 0);
+
+	for (int i = 0; i < Matrix.size(); i++) {
+		xi = 0;
+		for (int j = 0; j < Matrix[i].size(); j++) {
+			xi = elementAddition(xi, Matrix[i][j]);
+		}
+		Matrix[i].push_back(additiveInverse(xi));
+	}
+	return Matrix;
+}
+
 
 std::vector< std::vector<int> > KoerperFq::kontroll(KoerperFq G) {
 	std::vector< std::vector<int> > M;
