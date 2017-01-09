@@ -112,9 +112,11 @@
   <ItemGroup>
     <ClCompile Include="KoerperFq.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Polynom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KoerperFq.h" />
+    <ClInclude Include="Polynom.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

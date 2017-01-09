@@ -21,9 +21,15 @@
     <ClCompile Include="KoerperFq.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Polynom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KoerperFq.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Polynom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
