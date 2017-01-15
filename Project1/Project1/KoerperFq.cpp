@@ -478,13 +478,7 @@ void KoerperFq::BestimmeSyndromtabelle() {
 
 }*/
 
-bool istPrim(int a) {
 
-	for (int i = 2; i < a; i++) {
-		if (a%i==0) return false;
-	}
-	return true;
-}
 
 std::vector<int> KoerperFq::Nachfolger(std::vector<int> g, int pos) {
 

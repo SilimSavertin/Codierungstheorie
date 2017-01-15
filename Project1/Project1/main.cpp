@@ -1,9 +1,24 @@
 #include "KoerperFq.h"
 #include <iostream>
+#include "Polynom.h"
 using namespace std;
 
 void main() {
-	int a;
+
+	int myints[] = { 1,0,0,2,1 };
+	std::vector<int> tmp(myints, myints + sizeof(myints) / sizeof(int));
+	int myints2[] = { 2,1,0,1 };
+	std::vector<int> tmp2(myints2, myints2 + sizeof(myints2) / sizeof(int));
+	Polynom pol1(4, tmp, 3);
+	Polynom pol2(3, tmp2, 3);
+	Polynom pol3 = pol1.reduktion(pol1,pol2);
+	pol1.printPoly(pol3);
+
+	int stop;
+	cin >> stop;
+
+
+/*	int a;
 	cout << "Wählen Sie bitte einer der Optionen:" << endl;
 	cout << "	1: F3 [6,3]" << endl;
 	cout << "		0 1 1 0 1 2" << endl;
@@ -162,7 +177,7 @@ void main() {
 	//testelement.Mkanon =testelement.kanon(testelement);
 	//testelement.H = testelement.kontroll(testelement);
 	//testelement.BestimmeSyndromtabelle();
-	std::cin >> a;
+//	std::cin >> a;
 
 
 
