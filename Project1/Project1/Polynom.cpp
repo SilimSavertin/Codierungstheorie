@@ -75,7 +75,7 @@ Polynom Polynom::PolyAddition(Polynom poly1, Polynom poly2) {
 	Polynom pol(ergebnis.size()-1, ergebnis, poly1.prim);
 	Polynom pols2;
 	if (ergebnis.size()-1>degree(pol)) {
-		ergebnis.erase(ergebnis.begin(), ergebnis.begin() + (ergebnis.size() - degree(pol)));
+		ergebnis.erase(ergebnis.begin(), ergebnis.begin() + (ergebnis.size() - degree(pol)-1));
 		Polynom pols(degree(pol), ergebnis, poly1.prim);
 		pols2 = pols;
 	}
@@ -91,15 +91,39 @@ int Polynom::degree(Polynom a) {
 	return 0;
 }
 
+
+int mul_inv(int a, int b)
+{
+	int b0 = b, t, q;
+	int x0 = 0, x1 = 1;
+	if (b == 1) return 1;
+	while (a > 1) {
+		q = a / b;
+		t = b, b = a % b, a = t;
+		t = x0, x0 = x1 - q * x0, x1 = t;
+	}
+	if (x1 < 0) x1 += b0;
+	return x1;
+}
+inline int modulo(int a, int b) {
+	const int result = a % b;
+	return result >= 0 ? result : result + b;
+}
 Polynom Polynom::reduktion(Polynom a, Polynom f) {
 	Polynom zureduzieren = a;
 	Polynom reduzierenmit = f;
 
 	while (degree(zureduzieren) >= degree(reduzierenmit)) {
 		std::vector<int> zwischenpolynomkoeff(degree(zureduzieren)-degree(reduzierenmit)+1,0);
-		zwischenpolynomkoeff[0] = ((-zureduzieren.koeff[0])*pow(reduzierenmit.koeff[0],-1));
+		int auslagern1 = modulo((-zureduzieren.koeff[zureduzieren.grad - degree(zureduzieren)]),zureduzieren.prim);
+		int auslagern2 = (mul_inv(reduzierenmit.koeff[0], reduzierenmit.prim));
+		zwischenpolynomkoeff[0] = modulo(auslagern1*auslagern2,reduzierenmit.prim);
+
 		Polynom zwischending(degree(zureduzieren) - degree(reduzierenmit), zwischenpolynomkoeff, a.prim);
-		zureduzieren = PolyAddition(zureduzieren, PolyMulti(zwischending,reduzierenmit));
+
+		Polynom test = PolyMulti(zwischending, reduzierenmit);
+
+		zureduzieren = PolyAddition(zureduzieren,test);
 	}
 
 	return zureduzieren;

@@ -1,11 +1,2 @@
-﻿  Polynom.cpp
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\polynom.cpp(28): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\polynom.cpp(38): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\polynom.cpp(41): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\polynom.cpp(55): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\polynom.cpp(62): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\polynom.cpp(70): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\polynom.cpp(77): warning C4018: '>': signed/unsigned mismatch
-c:\users\user\documents\github\codierungstheorie\codierungstheorie\project1\project1\polynom.cpp(100): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-  Project1.vcxproj -> C:\Users\User\Documents\GitHub\Codierungstheorie\Codierungstheorie\Project1\Debug\Project1.exe
+﻿  Project1.vcxproj -> C:\Users\User\Documents\GitHub\Codierungstheorie\Codierungstheorie\Project1\Debug\Project1.exe
   Project1.vcxproj -> C:\Users\User\Documents\GitHub\Codierungstheorie\Codierungstheorie\Project1\Debug\Project1.pdb (Partial PDB)
