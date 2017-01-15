@@ -103,6 +103,7 @@ Polynom Polynom::reduktion(Polynom a, Polynom f) {
 	}
 
 	return zureduzieren;
+
 }
 
 
